@@ -1,2 +1,2 @@
-# dynamic-link-prediction
-Reddit post recommendation
+# Reddit post recommendation
+
