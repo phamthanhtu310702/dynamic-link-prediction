@@ -1,0 +1,4 @@
+[core]
+    remote = mybucket
+['remote "mybucket"']
+    url = s3://reddit-data-ml

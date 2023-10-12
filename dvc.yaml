@@ -8,15 +8,17 @@ stages:
   #   - processd_data/reddit/ml_reddit.csv
   #   - processd_data/reddit/ml_reddit.npy
   #   - processd_data/reddit/reddit.csv
-  train_clf:
+  trains:
     cmd: python train_link_prediction.py --dataset_name reddit --model_name GraphMixer --num_runs 2 --gpu 0
     deps:
     - train_link_prediction.py
-    - processed_data/reddit/ml_reddit_node.npy
-    - processed_data/reddit/ml_reddit.csv
-    - processed_data/reddit/ml_reddit.npy
-    - processed_data/reddit/reddit.csv
+    - processed_data/ml_reddit_node.npy
+    - processed_data/ml_reddit.csv
+    - processed_data/ml_reddit.npy
+    - processed_data/reddit.csv
     outs:
     - logs
     - saved_models
     - saved_results
+metrics:
+  - metrics.json

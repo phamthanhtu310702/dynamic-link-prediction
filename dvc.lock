@@ -4,19 +4,19 @@ stages:
     cmd: python train_link_prediction.py --dataset_name reddit --model_name GraphMixer
       --num_runs 2 --gpu 0
     deps:
-    - path: processed_data/reddit/ml_reddit.csv
+    - path: processed_data/ml_reddit.csv
       hash: md5
       md5: f388aca804fad821bb6e8c3512755bff
       size: 26870812
-    - path: processed_data/reddit/ml_reddit.npy
+    - path: processed_data/ml_reddit.npy
       hash: md5
       md5: 02bac766285c84cc3b80fcb6a28d83f1
       size: 925288576
-    - path: processed_data/reddit/ml_reddit_node.npy
+    - path: processed_data/ml_reddit_node.npy
       hash: md5
       md5: ca50eee56df93d33ebc99548498bc1c5
       size: 15115488
-    - path: processed_data/reddit/reddit.csv
+    - path: processed_data/reddit.csv
       hash: md5
       md5: cce28518427049d236f18982e8c56bb2
       size: 2368348656
