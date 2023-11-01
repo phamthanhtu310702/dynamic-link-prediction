@@ -4,3 +4,5 @@ processed_data/reddit
 __pycache__/
 *.ipynb
 logs
+/data.txt
+/data_2.txt

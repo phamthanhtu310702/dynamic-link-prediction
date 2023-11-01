@@ -1,5 +1,14 @@
 name: CML & DVC
-on: [push]
+on: 
+  push: 
+      branches:
+      - experiment
+      paths:
+        - train_link_prediction.py
+        - model/*
+        - utils/*
+        - data/*
+        - .github/workflows/cml.yaml
 jobs:
   train-and-report:
     runs-on: ubuntu-latest
@@ -17,15 +26,23 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           pip install -r requirements.txt  # Install dependencies
-          dvc pull trains --run-cache        # Pull data & run-cache from S3 ??
+          dvc pull data --run-cache        # Pull data & run-cache from S3
           dvc repro                        # Reproduce pipeline
       - name: Create CML report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "## Metrics: workflow vs. main" >> report.md
-          git fetch --depth=1 origin main:main
-
-          dvc metrics diff master --show-md >> report.md
+          dvc remote modify --local mybucket \
+                    access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+          dvc remote modify --local mybucket \
+                    secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          dvc push -r mybucket
+          dvc metrics show >> report.md
 
           cml comment create report.md
+      - name: Commit changes during running workflow
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Commit changes in dvc.lock
+          branch: experiment
+          file_pattern: dvc.lock saved_model/ dvclive/
