@@ -1,13 +1,13 @@
 stages:
-  # download_data:
-  #   cmd: python processed_data/preprocess_data.py
-  #   deps:
-  #   - processed_data/preprocess_data.py
-  #   outs:
-  #   - processd_data/reddit/ml_reddit_node.npy
-  #   - processd_data/reddit/ml_reddit.csv
-  #   - processd_data/reddit/ml_reddit.npy
-  #   - processd_data/reddit/reddit.csv
+  download_data:
+    cmd: python processed_data/preprocess_data.py
+    deps:
+    - processed_data/preprocess_data.py
+    - processd_data/reddit.csv
+    outs:
+    - processd_data/ml_reddit_node.npy
+    - processd_data/ml_reddit.csv
+    - processd_data/ml_reddit.npy
   trains:
     cmd: python train_link_prediction.py --dataset_name reddit --model_name GraphMixer --num_runs 2 --gpu 0
     deps:
@@ -15,10 +15,8 @@ stages:
     - processed_data/ml_reddit_node.npy
     - processed_data/ml_reddit.csv
     - processed_data/ml_reddit.npy
-    - processed_data/reddit.csv
     outs:
     - logs
     - saved_models
-    - saved_results
 metrics:
-  - metrics.json
+  - dvclive/metrics.json
